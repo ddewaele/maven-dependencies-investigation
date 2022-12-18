@@ -119,3 +119,73 @@ When we add Spring Security to the mix, we see that it relies on `Spring Securit
 [INFO]    +- org.springframework:spring-test:jar:5.3.24:test
 [INFO]    \- org.xmlunit:xmlunit-core:jar:2.9.0:test
 ```
+
+
+If we were to package this app we would see these JAR files  :
+
+```
+BOOT-INF/
+BOOT-INF/classes/
+BOOT-INF/classes/com/
+BOOT-INF/classes/com/example/
+BOOT-INF/classes/com/example/demo/
+BOOT-INF/classes/com/example/demo/DemoApplication.class
+BOOT-INF/classes/application.properties
+BOOT-INF/lib/
+BOOT-INF/lib/spring-boot-2.7.6.jar
+BOOT-INF/lib/spring-boot-autoconfigure-2.7.6.jar
+BOOT-INF/lib/logback-classic-1.2.11.jar
+BOOT-INF/lib/logback-core-1.2.11.jar
+BOOT-INF/lib/log4j-to-slf4j-2.17.2.jar
+BOOT-INF/lib/log4j-api-2.17.2.jar
+BOOT-INF/lib/jul-to-slf4j-1.7.36.jar
+BOOT-INF/lib/jakarta.annotation-api-1.3.5.jar
+BOOT-INF/lib/snakeyaml-1.30.jar
+BOOT-INF/lib/spring-aop-5.3.24.jar
+BOOT-INF/lib/spring-beans-5.3.24.jar
+BOOT-INF/lib/spring-security-config-5.7.5.jar
+BOOT-INF/lib/spring-security-core-5.7.5.jar
+BOOT-INF/lib/spring-security-crypto-5.7.5.jar
+BOOT-INF/lib/spring-context-5.3.24.jar
+BOOT-INF/lib/spring-security-web-5.7.5.jar
+BOOT-INF/lib/spring-expression-5.3.24.jar
+BOOT-INF/lib/spring-web-5.3.24.jar
+BOOT-INF/lib/slf4j-api-1.7.36.jar
+BOOT-INF/lib/spring-core-5.3.24.jar
+BOOT-INF/lib/spring-jcl-5.3.24.jar
+BOOT-INF/lib/spring-boot-jarmode-layertools-2.7.6.jar
+BOOT-INF/classpath.idx
+BOOT-INF/layers.idx
+```
+
+So we already have 3 sets of versions that Spring Boot manages
+
+```
+Spring Boot     Spring Framework    Spring Security
+2.7.6           5.3.24              5.7.5
+2.7.1           5.3.21              5.7.2
+```
+
+The way Spring Boot does that is through its starter parents.
+
+```
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.6</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+```
+
+that in turn has the following parent
+
+```
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-dependencies</artifactId>
+    <version>2.7.6</version>
+  </parent>
+```
+
+And this is where the magic happens. 
+The `spring-boot-dependencies` contains all the versions of all the libraries that Spring depends on.
